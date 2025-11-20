@@ -1,0 +1,58 @@
+name: inception
+
+services:
+  mariadb:
+      build:
+        context: requirements/mariadb
+      env_file: 
+        - .env
+      volumes:
+        - type: bind
+          source: /home/naoufal/data/data_base
+          target: /var/lib/mysql/WordPress
+      secrets:
+        - my_secret
+        - my_other_secret
+      healthcheck:
+        test: ["CMD", "mariadb-admin", "ping", "-h", "localhost"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+
+  wordpress:
+      build:
+        context: requirements/wordpress
+      env_file: 
+        - .env
+      secrets:
+        - my_other_secret
+      volumes:
+        - type: bind
+          source: /home/naoufal/data/wordpress_files
+          target: /var/www/wordpress
+      depends_on:
+        mariadb:
+          condition: service_healthy
+
+  nginx:
+      build:
+        context: requirements/nginx
+      env_file: 
+        - .env
+      ports:
+        - 80:80
+
+      volumes:
+        - type: bind
+          source: /home/naoufal/data/wordpress_files
+          target: /var/www/wordpress
+      # depends_on:
+      #   wordpress:
+      #     condition: service_healthy
+
+
+secrets:
+  my_secret:
+    file: ../secrets/db_root_password.txt
+  my_other_secret:
+    file: ../secrets/db_password.txt
