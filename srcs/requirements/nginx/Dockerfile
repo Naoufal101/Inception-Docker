@@ -3,11 +3,17 @@ FROM debian:bookworm-slim
 # Install Nginx and curl (for health check)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     nginx \
+    openssl \
     curl \
     && rm -rf /var/lib/apt/lists/*
     # ca-certificates \
 
-COPY	./conf/wordpress.conf /etc/nginx/sites-available/
+COPY ./conf/wordpress.conf /etc/nginx/sites-available/
+
+RUN ln -s /etc/nginx/sites-available/wordpress.conf \
+    /etc/nginx/sites-enabled/wordpress \
+    && rm -f /etc/nginx/sites-enabled/default
+
 # # Create necessary directories
 # RUN mkdir -p /var/log/nginx && \
 #     mkdir -p /var/cache/nginx && \

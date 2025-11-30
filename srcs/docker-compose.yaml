@@ -7,9 +7,7 @@ services:
       env_file: 
         - .env
       volumes:
-        - type: bind
-          source: /home/naoufal/data/data_base
-          target: /var/lib/mysql/WordPress
+        - data_base:/var/lib/mysql/WordPress
       secrets:
         - my_secret
         - my_other_secret
@@ -27,12 +25,15 @@ services:
       secrets:
         - my_other_secret
       volumes:
-        - type: bind
-          source: /home/naoufal/data/wordpress_files
-          target: /var/www/wordpress
+        - wordpress_files:/var/www/wordpress
       depends_on:
         mariadb:
           condition: service_healthy
+      healthcheck:
+        test: ["CMD-SHELL", "SCRIPT_NAME=/ping SCRIPT_FILENAME=/ping REQUEST_METHOD=GET cgi-fcgi -bind -connect 127.0.0.1:9000 | grep 'pong'"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
 
   nginx:
       build:
@@ -41,18 +42,31 @@ services:
         - .env
       ports:
         - 80:80
-
+        - 8080:8080
       volumes:
-        - type: bind
-          source: /home/naoufal/data/wordpress_files
+        - type: volume
+          source: wordpress_files
           target: /var/www/wordpress
-      # depends_on:
-      #   wordpress:
-      #     condition: service_healthy
-
+      depends_on:
+        wordpress:
+          condition: service_healthy
 
 secrets:
   my_secret:
     file: ../secrets/db_root_password.txt
   my_other_secret:
     file: ../secrets/db_password.txt
+
+volumes:
+  wordpress_files:
+    name: wordpress_files
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/nhimad/Desktop/data/wordpress_files
+  data_base:
+    name: data_base
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/nhimad/Desktop/data/data_base

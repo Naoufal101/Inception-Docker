@@ -24,8 +24,5 @@ if [ ! -f "/var/www/wordpress/wp-config.php" ]; then
 
 fi
 
-# set php-fpm to listen on TCP instead of default Unix socket
-sed -i "s|listen = /run/php/php8.2-fpm.sock|listen = 0.0.0.0:9000|" /etc/php/8.2/fpm/pool.d/www.conf
-
 #Start php-fpm in foreground as PID 1
 exec php-fpm8.2 -F
