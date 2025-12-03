@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
 
@@ -50,12 +50,6 @@ if [ ! -f "$INIT_FLAG_FILE" ]; then
         FLUSH PRIVILEGES;
 EOF
 
-    # Create database
-    echo -e "${GREEN}Creating database: $MYSQL_DATABASE${NC}"
-    mysql -u root -p"$MYSQL_ROOT_PASSWORD" <<-EOF
-        CREATE DATABASE IF NOT EXISTS \`$MYSQL_DATABASE\`;
-EOF
-
     # Create user and grant privileges
     echo -e "${GREEN}Creating user: $MYSQL_USER${NC}"
     mysql -u root -p"$MYSQL_ROOT_PASSWORD" <<-EOF
@@ -63,10 +57,6 @@ EOF
         GRANT ALL PRIVILEGES ON \`$MYSQL_DATABASE\`.* TO '$MYSQL_USER'@'%';
         FLUSH PRIVILEGES;
 EOF
-
-    # Fix ownership of database directory to mysql user
-    echo -e "${GREEN}Fixing database directory ownership...${NC}"
-    chown -R mysql:mysql /var/lib/mysql/$MYSQL_DATABASE
 
     # Stop the background MariaDB process
     echo -e "${GREEN}Stopping MariaDB for clean restart...${NC}"

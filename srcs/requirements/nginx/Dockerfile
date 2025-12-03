@@ -32,8 +32,8 @@ RUN ln -s /etc/nginx/sites-available/wordpress.conf \
 # # Health check
 # HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     # CMD curl -f http://localhost/health || exit 1
+COPY	./tools/docker-entrypoint.sh /usr/bin/
 
-EXPOSE 80 443
+RUN		chmod 744 /usr/bin/docker-entrypoint.sh
 
-# ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT [ "docker-entrypoint.sh" ]

@@ -7,7 +7,7 @@ services:
       env_file: 
         - .env
       volumes:
-        - data_base:/var/lib/mysql/WordPress
+        - data_base:/var/lib/mysql/
       secrets:
         - my_secret
         - my_other_secret
@@ -34,6 +34,7 @@ services:
         interval: 10s
         timeout: 5s
         retries: 5
+        start_period: 30s
 
   nginx:
       build:
@@ -41,8 +42,7 @@ services:
       env_file: 
         - .env
       ports:
-        - 80:80
-        - 8080:8080
+        - 443:443
       volumes:
         - type: volume
           source: wordpress_files
@@ -63,10 +63,10 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /Users/nhimad/Desktop/data/wordpress_files
+      device: /home/naoufal/data/wordpress_files
   data_base:
     name: data_base
     driver_opts:
       type: none
       o: bind
-      device: /Users/nhimad/Desktop/data/data_base
+      device: /home/naoufal/data/data_base
