@@ -47,6 +47,9 @@ services:
         - type: volume
           source: wordpress_files
           target: /var/www/wordpress
+        - type: bind
+          source: ./requirements/nginx/conf
+          target: /etc/inception/
       depends_on:
         wordpress:
           condition: service_healthy
