@@ -2,6 +2,7 @@ name: inception
 
 services:
   mariadb:
+      image: mariadb:1
       build:
         context: requirements/mariadb
       env_file: 
@@ -16,8 +17,12 @@ services:
         interval: 10s
         timeout: 5s
         retries: 5
+      networks:
+        - Inception_Net
+      restart: on-failure
 
   wordpress:
+      image: wordpress:1
       build:
         context: requirements/wordpress
       env_file: 
@@ -34,9 +39,13 @@ services:
         interval: 10s
         timeout: 5s
         retries: 5
-        start_period: 30s
+        start_period: 5s
+      networks:
+        - Inception_Net
+      restart: on-failure
 
   nginx:
+      image: nginx:1
       build:
         context: requirements/nginx
       env_file: 
@@ -53,6 +62,13 @@ services:
       depends_on:
         wordpress:
           condition: service_healthy
+      networks:
+        - Inception_Net
+      restart: on-failure
+
+networks:
+  Inception_Net:
+    driver: bridge
 
 secrets:
   my_secret:

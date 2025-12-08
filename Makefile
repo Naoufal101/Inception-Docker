@@ -3,7 +3,7 @@ MARIADB_VOLUME = ${VOLUMES_DIR}/data_base
 WP_VOLUME = ${VOLUMES_DIR}/wordpress_files
 
 COMPOSE_FILE = srcs/docker-compose.yaml
-DC = sudo docker compose
+DC = docker compose
 
 all: build
 
@@ -13,10 +13,10 @@ prepare:
 build: prepare
 	$(DC) -f $(COMPOSE_FILE) build
 
-up: prepare
+up: build
 	$(DC) -f $(COMPOSE_FILE) up
 
-up-d: prepare
+up-d: build
 	$(DC) -f $(COMPOSE_FILE) up -d
 
 down:
