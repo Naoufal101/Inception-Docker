@@ -10,6 +10,7 @@ RUN		apt-get install -y --no-install-recommends php8.2-fpm \
 		php8.2-mysql \
 		libfcgi-bin \
 	    mariadb-client \
+		php-redis \
 		&& rm -rf /var/lib/apt/lists/*
 
 COPY    ./conf/z_cgi.conf /etc/php/8.2/fpm/pool.d/

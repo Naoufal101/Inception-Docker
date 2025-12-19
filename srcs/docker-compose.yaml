@@ -66,6 +66,25 @@ services:
         - Inception_Net
       restart: on-failure
 
+  redis:
+      image: redis:1
+      build:
+        context: requirements/bonus/redis
+      networks:
+        - Inception_Net
+      restart: on-failure
+
+  adminer:
+      build: requirements/bonus/Adminer
+      container_name: adminer
+      restart: on-failure
+      ports:
+        - "8080:8080"
+      networks:
+        - Inception_Net
+      depends_on:
+        - mariadb
+
 networks:
   Inception_Net:
     driver: bridge

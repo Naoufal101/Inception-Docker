@@ -22,6 +22,9 @@ up-d: build
 down:
 	$(DC) -f $(COMPOSE_FILE) down
 
+start:
+	$(DC) -f $(COMPOSE_FILE) start
+
 stop:
 	$(DC) -f $(COMPOSE_FILE) stop
 
