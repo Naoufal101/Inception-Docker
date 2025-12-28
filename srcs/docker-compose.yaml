@@ -75,6 +75,7 @@ services:
       restart: on-failure
 
   adminer:
+      image: adminer:1
       build: requirements/bonus/Adminer
       container_name: adminer
       restart: on-failure
@@ -84,6 +85,25 @@ services:
         - Inception_Net
       depends_on:
         - mariadb
+
+  ftp:
+      image: ftp:1
+      build: requirements/bonus/FTP
+      container_name: Ftp
+      restart: on-failure
+      env_file: 
+        - .env
+      ports:
+        - "21:21"
+        - "21100:21110"
+      volumes:
+        - type: volume
+          source: wordpress_files
+          target: /var/www/html
+      networks:
+        - Inception_Net
+      depends_on:
+        - wordpress
 
 networks:
   Inception_Net:
