@@ -105,6 +105,18 @@ services:
       depends_on:
         - wordpress
 
+  redis-commander:
+      image: redis-commander:1
+      build: requirements/bonus/redis-commander
+      container_name: redis-commander
+      restart: on-failure
+      ports:
+        - "8081:8081"
+      networks:
+        - Inception_Net
+      depends_on:
+        - redis
+
 networks:
   Inception_Net:
     driver: bridge
