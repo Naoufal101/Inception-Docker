@@ -84,7 +84,8 @@ services:
       networks:
         - Inception_Net
       depends_on:
-        - mariadb
+        mariadb:
+          condition: service_healthy
 
   ftp:
       image: ftp:1
@@ -103,7 +104,9 @@ services:
       networks:
         - Inception_Net
       depends_on:
-        - wordpress
+        wordpress:
+          condition: service_healthy
+
 
   redis-commander:
       image: redis-commander:1
@@ -116,6 +119,16 @@ services:
         - Inception_Net
       depends_on:
         - redis
+
+  website:
+      image: website:1
+      build: requirements/bonus/website
+      container_name: website
+      restart: on-failure
+      ports:
+        - "1313:1313"
+      networks:
+        - Inception_Net
 
 networks:
   Inception_Net:

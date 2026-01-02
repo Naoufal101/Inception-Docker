@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inception - Project Documentation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        
+        <h1>Inception: Docker Infrastructure</h1>
+
+        <section id="description">
+            <h2>Description</h2>
+            <p>
+                The goal of this project is to broaden the knowledge of system administration by using Docker. 
+                This project involves setting up a small infrastructure composed of different services following 
+                specific rules for performance and security. The infrastructure is built using Docker Compose 
+                and includes a WordPress website, a MariaDB database, and NGINX server, along with extra monitoring tools.
+            </p>
+        </section>
+
+        <hr>
+
+       <section id="instructions">
+            <h2>Instructions</h2>
+            
+            <h3>Build & Launch</h3>
+            <p>Use the Makefile to manage the lifecycle of the application.</p>
+            
+            <pre><code>make</code></pre>
+            <p>Creates the necessary volume directories (<code>~/data</code>) and builds the Docker images.</p>
+
+            <pre><code>make up</code></pre>
+            <p>Builds and starts the cluster in the <strong>foreground</strong>. You will see live logs from all containers.</p>
+
+            <pre><code>make up-d</code></pre>
+            <p>Builds and starts the cluster in <strong>detached mode</strong> (background). The terminal remains free for other commands.</p>
+
+            <h3>Management</h3>
+            
+            <pre><code>make stop</code></pre>
+            <p>Stops the running containers without removing them.</p>
+
+            <pre><code>make start</code></pre>
+            <p>Starts existing containers that were previously stopped.</p>
+
+            <pre><code>make down</code></pre>
+            <p>Stops and removes the containers and the network. Data volumes are preserved.</p>
+
+            <h3>Reset & Cleaning</h3>
+            
+            <pre><code>make fclean</code></pre>
+            <p><strong>⚠️ Deep Clean:</strong> Stops containers, removes images, volumes, and deletes the local data folders.</p>
+
+            <pre><code>make re</code></pre>
+            <p>Performs a full reset (<code>fclean</code>) and then rebuilds the project from scratch.</p>
+        </section>
+
+        <hr>
+
+        <section id="comparisons">
+            <h2>Project Architecture Choices</h2>
+            <p>This project utilizes Docker to containerize services. Here is the technical breakdown:</p>
+
+            <div class="comparison-grid">
+                <div class="card">
+                    <h3>Virtual Machines vs Docker</h3>
+                    <p><strong>VMs</strong> emulate an entire hardware stack and run a full OS. They are heavy and slow to boot.</p>
+                    <p><strong>Docker</strong> shares the host's Linux Kernel and only isolates the Application layer. It is lightweight and starts instantly.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Secrets vs Environment Variables</h3>
+                    <p><strong>Env Variables</strong> are stored as plain text in the container config. Anyone with <code>docker inspect</code> can see them.</p>
+                    <p><strong>Secrets</strong> are encrypted and only mounted into the container's file system at runtime. They are more secure.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Docker Network vs Host Network</h3>
+                    <p><strong>Docker Network</strong> creates an isolated virtual bridge. Containers talk via DNS names.</p>
+                    <p><strong>Host Network</strong> removes isolation. The container shares the exact IP and Port space of the host machine.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Docker Volumes vs Bind Mounts</h3>
+                    <p><strong>Volumes</strong> are managed by Docker (in <code>/var/lib/docker</code>). They are the preferred way to persist data.</p>
+                    <p><strong>Bind Mounts</strong> link a specific folder on your Host to the Container.</p>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <section id="resources">
+            <h2>Resources</h2>
+            <ul>
+                <li><a href="https://docs.docker.com/" target="_blank">Official Docker Documentation</a></li>
+                <li><a href="https://www.docker.com/trainings/" target="_blank">Docker Training & Courses</a></li>
+                <li><a href="https://youtu.be/X2hpxp3Kq6A?si=Rls4YlAGWXLs2jYp" target="_blank">Video: What is a Container? (Geekific)</a></li>
+                <li><a href="https://youtu.be/3c-iBn73dDE?si=oosLgrCixLVG3HWz" target="_blank">Video: Docker Tutorial for Beginners (TechWorld with Nana)</a></li>
+                <li><a href="https://youtu.be/j_UUnlVC2Ss?si=4OhIw9rC6maqeF7H" target="_blank">Video: Network Namespaces Basics Explained</a></li>
+                <li><a href="https://youtu.be/EnY6fSng3Ew?si=VAGkino1QQ1A--jZ" target="_blank">Video: HTTPS, SSL, TLS & Certificate Authorities</a></li>
+                <li><a href="https://youtu.be/bvvTEPBqkYM?si=j9_QuGE5IqJAkyWb" target="_blank">Video: Docker Volume Drivers & Plugins Explained</a></li>
+            </ul>
+
+            <h3>AI Usage Disclosure</h3>
+            <p>
+                Artificial Intelligence tools were utilized in the development of this project for the following purposes:
+                <ul>
+                    <li><strong>Concept Mastery:</strong> Used LLMs to break down complex architectural concepts (Docker networks, PID 1, Volume mapping) and understand the interaction between services (NGINX, MariaDB, WordPress).</li>
+                    <li><strong>Configuration Assistance:</strong> Used to understand syntax requirements and best practices for configuration files (`.conf`, `Dockerfile`).</li>
+                    <li><strong>Design Generation:</strong> Generated the CSS styling and layout for this documentation website.</li>
+                    <li><strong>Integrated Documentation Assistants:</strong> Leveraged the AI-powered search and chatbots embedded within official documentation (e.g., Docker Docs AI, MariaDB Knowledge Base) to efficiently locate specific flags and technical details.</li>
+                </ul>
+            </p>
+        </section>
+
+        <hr>
+
+        <footer>
+            <p><i>This project has been created as part of the 42 curriculum by Naoufal Himad.</i></p>
+        </footer>
+
+    </div>
+</body>
+</html>
