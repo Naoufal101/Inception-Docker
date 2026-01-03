@@ -5,8 +5,9 @@ services:
       image: mariadb:1
       build:
         context: requirements/mariadb
-      env_file: 
-        - .env
+      environment:
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_USER=${MYSQL_USER}
       volumes:
         - data_base:/var/lib/mysql/
       secrets:
@@ -25,10 +26,22 @@ services:
       image: wordpress:1
       build:
         context: requirements/wordpress
-      env_file: 
-        - .env
+      environment:
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_USER=${MYSQL_USER}
+        - WP_SITE_URL=${WP_SITE_URL}
+        - WP_SITE_TITLE=${WP_SITE_TITLE}
+        - WP_ADMIN_USER=${WP_ADMIN_USER}
+        - WP_ADMIN_EMAIL=${WP_ADMIN_EMAIL}
+        - WP_DEFAULT_USER=${WP_DEFAULT_USER}
+        - WP_DEFAULT_USER_EMAIL=${WP_DEFAULT_USER_EMAIL}
+        - WP_DEFAULT_USER_ROLE=${WP_DEFAULT_USER_ROLE}
+        - WP_DEFAULT_THEME=${WP_DEFAULT_THEME}
+        - WP_REDIS_HOST=${WP_REDIS_HOST}
+        - WP_REDIS_PORT=${WP_REDIS_PORT}
       secrets:
         - my_other_secret
+        - wp_admin_password
       volumes:
         - wordpress_files:/var/www/wordpress
       depends_on:
@@ -48,8 +61,11 @@ services:
       image: nginx:1
       build:
         context: requirements/nginx
-      env_file: 
-        - .env
+      environment:
+        - DOMAIN_NAME=${DOMAIN_NAME}
+        - SSL_COUNTRY=${SSL_COUNTRY}
+        - SSL_STATE=${SSL_STATE}
+        - SSL_ORGANIZATION=${SSL_ORGANIZATION}
       ports:
         - 443:443
       volumes:
@@ -64,6 +80,12 @@ services:
           condition: service_healthy
       networks:
         - Inception_Net
+      healthcheck:
+        test: ["CMD", "curl", "-f", "-k", "https://localhost"]
+        interval: 30s
+        timeout: 10s
+        retries: 3
+        start_period: 30s
       restart: on-failure
 
   redis:
@@ -92,8 +114,10 @@ services:
       build: requirements/bonus/FTP
       container_name: Ftp
       restart: on-failure
-      env_file: 
-        - .env
+      environment:
+        - FTP_USER=${FTP_USER}
+      secrets:
+        - ftp_password
       ports:
         - "21:21"
         - "21100:21110"
@@ -132,13 +156,17 @@ services:
 
 networks:
   Inception_Net:
-    driver: bridge
+    name: Inception
 
 secrets:
   my_secret:
     file: ../secrets/db_root_password.txt
   my_other_secret:
     file: ../secrets/db_password.txt
+  wp_admin_password:
+    file: ../secrets/wp_admin_password.txt
+  ftp_password:
+    file: ../secrets/ftp_password.txt
 
 volumes:
   wordpress_files:
@@ -146,10 +174,10 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/naoufal/data/wordpress_files
+      device: ${DATA_PATH}/wordpress_files
   data_base:
     name: data_base
     driver_opts:
       type: none
       o: bind
-      device: /home/naoufal/data/data_base
+      device: ${DATA_PATH}/data_base

@@ -1,0 +1,28 @@
+# Secrets and Environment Configuration
+secrets/
+srcs/.env
+
+# SSL/TLS Certificates
+srcs/requirements/nginx/conf/rootCA.crt
+srcs/requirements/nginx/conf/rootCA.key
+
+# Documentation
+README2.md
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Development
+.log
+*.tmp
+
+# Docker volumes (local data)
+~/data/

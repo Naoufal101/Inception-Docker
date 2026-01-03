@@ -13,9 +13,9 @@ else
   wp core download --path=/var/www/wordpress --allow-root
   wp config create --path=/var/www/wordpress --dbname=$MYSQL_DATABASE --dbuser=$MYSQL_USER --dbpass=$(cat /run/secrets/my_other_secret) --dbhost=mariadb:3306 --skip-check --allow-root
   wp db create --path=/var/www/wordpress --allow-root
-  wp core install --path=/var/www/wordpress --url=localhost --title="The Inception" --admin_user=molxi --admin_password=molxi123 --admin_email=molxi@gmail.com --allow-root
-  wp user create bob bob@example.com --role=author --path=/var/www/wordpress --allow-root
-  wp theme activate twentytwentyfour --allow-root --path=/var/www/wordpress
+  wp core install --path=/var/www/wordpress --url=$WP_SITE_URL --title="$WP_SITE_TITLE" --admin_user=$WP_ADMIN_USER --admin_password=$(cat /run/secrets/wp_admin_password) --admin_email=$WP_ADMIN_EMAIL --allow-root
+  wp user create $WP_DEFAULT_USER $WP_DEFAULT_USER_EMAIL --role=$WP_DEFAULT_USER_ROLE --path=/var/www/wordpress --allow-root
+  wp theme activate $WP_DEFAULT_THEME --allow-root --path=/var/www/wordpress
 
     # Configure Connection Details
   wp config set WP_REDIS_HOST $WP_REDIS_HOST --allow-root --path=/var/www/wordpress

@@ -20,5 +20,4 @@ COPY public/ /app/public/
 
 EXPOSE 1313
 
-# Run the binary directly (no "go run" needed)
 CMD ["/app/server"]

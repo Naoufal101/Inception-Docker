@@ -3,7 +3,6 @@
 set -e
 
 # Colors for output (optional, for readability)
-RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
@@ -15,19 +14,7 @@ INIT_FLAG_FILE="/var/lib/mysql/.init_complete"
 
 # Check if already initialized
 if [ ! -f "$INIT_FLAG_FILE" ]; then
-
-    # Check if environment variables are set
-    if [ -z "$MYSQL_DATABASE" ]; then
-        echo -e "${RED}Error: MYSQL_DATABASE is not set${NC}"
-        exit 1
-    fi
-
-    if [ -z "$MYSQL_USER" ]; then
-        echo -e "${RED}Error: MYSQL_USER is not set${NC}"
-        exit 1
-    fi
-
-        
+       
     # Start MariaDB in background for initialization
     mariadbd-safe &
     MARIADB_PID=$!

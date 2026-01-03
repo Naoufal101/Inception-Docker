@@ -13,9 +13,8 @@ SERVER_CSR="/etc/ssl/certs/server.csr"
 SERVER_CERT="/etc/ssl/certs/server.crt"
 FULL_CHAIN="/etc/ssl/certs/fullchain.pem"
 
-
-# CONF_VA="/C=MA/ST=TTH/O=1337MED/OU=UM6P/CN=Naoufal_CA"
-SCONF_VA="/C=MA/ST=TTH/O=1337MED/CN=Inception"
+# Build SSL subject from environment variables
+SCONF_VA="/C=${SSL_COUNTRY}/ST=${SSL_STATE}/O=${SSL_ORGANIZATION}/CN=${DOMAIN_NAME}"
 
 if [ ! -f "${FULL_CHAIN}" ]; then
 
