@@ -91,8 +91,13 @@ make fclean      # Delete everything (⚠️ data loss)
    make down
    make up
    ```
+   or
+   ```bash
+   make re #Wipe everything and begin from scratch
+   ```
+   
 
-3. Or change WordPress password in admin panel (easier)
+4. Or change WordPress password in admin panel (easier)
 
 ### Keep Credentials Secure
 - Never share `secrets/` folder or `srcs/.env`
