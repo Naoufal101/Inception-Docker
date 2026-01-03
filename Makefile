@@ -30,6 +30,7 @@ stop:
 
 fclean:
 	$(DC) -f $(COMPOSE_FILE) down --rmi all -v
+	docker image prune -f
 	sudo rm -rf ${VOLUMES_DIR}
 
 re: fclean build
