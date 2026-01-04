@@ -49,14 +49,11 @@ DATA_PATH=/home/your-user/data
 # MARIADB DATABASE CONFIGURATION
 MYSQL_DATABASE=WordPress
 MYSQL_USER=wordpress_user
-MYSQL_PASSWORD=secure_password
-MYSQL_ROOT_PASSWORD=root_password
 
 # WORDPRESS CONFIGURATION
 WP_SITE_URL=https://your-domain.com
 WP_SITE_TITLE=Your Site Title
 WP_ADMIN_USER=admin
-WP_ADMIN_PASSWORD=admin_password
 WP_ADMIN_EMAIL=admin@your-domain.com
 WP_DEFAULT_USER=user
 WP_DEFAULT_USER_EMAIL=user@your-domain.com
@@ -69,7 +66,6 @@ WP_REDIS_PORT=6379
 
 # FTP SERVER CONFIGURATION
 FTP_USER=ftp_manager
-FTP_PASSWORD=ftp_password
 
 # NGINX/SSL CONFIGURATION
 SSL_COUNTRY=MA
