@@ -21,8 +21,6 @@ DATA_PATH=/home/$(whoami)/data
 
 MYSQL_DATABASE=WordPress
 MYSQL_USER=wordpress_user
-MYSQL_PASSWORD=secure_password
-MYSQL_ROOT_PASSWORD=root_password
 
 WP_SITE_URL=https://localhost
 WP_SITE_TITLE=Dev Site
@@ -37,7 +35,6 @@ WP_REDIS_HOST=redis
 WP_REDIS_PORT=6379
 
 FTP_USER=ftpuser
-FTP_PASSWORD=ftp_password
 
 SSL_COUNTRY=US
 SSL_STATE=Dev
