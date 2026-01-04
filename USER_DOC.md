@@ -37,7 +37,7 @@ make fclean      # Delete everything (⚠️ data loss)
 ## Access Website & Administration
 
 ### Your Website
-1. Open browser: `https://your-domain.com` (or `https://localhost`)
+1. Open browser: `http://localhost:1313`
 2. SSL warning is normal - click "Proceed"
 
 ### WordPress Admin Panel
