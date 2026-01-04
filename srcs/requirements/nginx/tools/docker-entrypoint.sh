@@ -40,7 +40,7 @@ if [ ! -f "${FULL_CHAIN}" ]; then
                 openssl req -new -key "${SERVER_KEY}" -out "${SERVER_CSR}" -subj "${SCONF_VA}"
 
                 ### define subject Alt Name conf
-                echo "subjectAltName=DNS:localhost, IP:127.0.0.1" >> san.cnf
+                echo "subjectAltName=DNS:nhimad.42.fr, IP:127.0.0.1" >> san.cnf
 
                 ### === Sign the CSR with Root CA to get server certificate (with SAN) ===
                 openssl x509 -req -in "${SERVER_CSR}" -CA "${ROOT_CERT}" \
